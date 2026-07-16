@@ -10,33 +10,11 @@ from slack_bolt.adapter.socket_mode import SocketModeHandler
 # Initializes your app with your bot token
 app = App(token=os.environ.get("SLACK_BOT_TOKEN"))
 
-
-# Listens to incoming messages that contain "hello"
-@app.message("hello")
-def message_hello(message, say):
-    # say() sends a message to the channel where the event was triggered
-    say(
-        blocks=[
-            {
-                "type": "section",
-                "text": {"type": "mrkdwn", "text": f"Hey there <@{message['user']}>!"},
-                "accessory": {
-                    "type": "button",
-                    "text": {"type": "plain_text", "text": "Click Me"},
-                    "action_id": "button_click",
-                },
-            }
-        ],
-        text=f"Hey there <@{message['user']}>!",
-    )
-
-
-@app.action("button_click")
-def action_button_click(body, ack, say):
-    # Acknowledge the action
+@app.command("/helloworld")
+def message_hello_world(ack,say):
     ack()
-    say(f"<@{body['user']['id']}> clicked the button")
-
+    response = "hello world this is rehan this side with the help of app"
+    say(f"{response}!")
 
 # Start your app
 if __name__ == "__main__":
